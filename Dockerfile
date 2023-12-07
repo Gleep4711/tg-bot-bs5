@@ -23,4 +23,4 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 CMD ["python", "-m", "bot"]
 
-# docker build -t bs5 .
+# docker build -t bs5 . && docker run -d --name bs5_bot --restart unless-stopped --env-file .env --volume "$(pwd)":/app --network redis bs5

@@ -1,11 +1,7 @@
-from textwrap import dedent
-
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Command
-
-from bot.const import START_POINTS
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -13,9 +9,7 @@ router = Router()
 
 @router.message(Command('start'), flags=flags)
 async def cmd_start(message: Message, state: FSMContext):
-    start_text = '<b>Welcome</b>'
-    await state.update_data(score=START_POINTS)
-    await message.answer(dedent(start_text).format(points=START_POINTS))
+    await message.answer("<b>Welcome</b>")
 
 
 @router.message(Command('stop'), flags=flags)
