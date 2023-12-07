@@ -2,18 +2,17 @@ import json
 
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
-from aiogram.methods.forward_message import ForwardMessage
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message
 from bot.bot import bot
-from bot.config_reader import config
+from bot.config_reader import config, users_ids, users_topics
 from bot.keyboards import build_keyboard, build_inline
-from bot.users import users_ids, users_topics
 
 ids = set()
 for user_id in users_ids:
     ids.add(user_id)
 
 router = Router()
+F: Message
 
 @router.message((F.forward_from.id == config.bs_id) & (F.chat.type == 'private'))
 async def bastion_forward(message: Message, state: FSMContext):
@@ -57,7 +56,7 @@ async def private_user_bots(message: Message, state: FSMContext):
 @router.message((F.chat.id == config.bots_manager_group_id_main_chat))
 async def bots_manager_group(message: Message, state: FSMContext):
     ''' We send messages to the user '''
-    if not message.text or not (message.message_thread_id in users_topics):
+    if not (message.text and message.message_thread_id in users_topics):
         return
 
     msg = message.text

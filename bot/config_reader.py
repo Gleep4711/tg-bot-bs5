@@ -4,6 +4,7 @@ from enum import Enum
 from pydantic import BaseModel, RedisDsn, SecretStr, field_validator, FieldValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from users import users
 
 class Redis(BaseModel):
     host: str
@@ -56,3 +57,9 @@ class Settings(BaseSettings):
 
 
 config = Settings()
+
+users_ids = {}
+users_topics = {}
+for user in users:
+    users_ids[users[user]['id']] = { 'name': user, 'topic': users[user]['topic'] }
+    users_topics[users[user]['topic']] = { 'name': user, 'id': users[user]['id'] }
