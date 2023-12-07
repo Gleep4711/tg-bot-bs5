@@ -1,7 +1,8 @@
 import json
 
-from aiogram import F, Router
+from aiogram import Router
 from aiogram.types import CallbackQuery
+
 from bot.bot import bot
 from bot.common import BastionInlineDynamic
 from bot.users import users_topics

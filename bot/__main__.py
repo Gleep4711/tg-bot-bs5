@@ -12,7 +12,7 @@ from bot.ui_commands import set_bot_commands
 
 
 async def main():
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.CRITICAL)
 
     dp.include_router(default_commands.router)
     dp.include_router(admin_commands.router)
@@ -28,6 +28,7 @@ async def main():
 
     try:
         await bot.send_message(chat_id=config.bots_manager_group_id_main_chat, text='Bot launcher', reply_markup=ReplyKeyboardRemove())
+        # await bot.send_message(chat_id=config.admin, text='Bot launcher', reply_markup=ReplyKeyboardRemove()) # debug
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
         await bot.session.close()
