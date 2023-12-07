@@ -1,0 +1,24 @@
+# This file must be renamed in .env
+
+# Bot token, you can find out from https://t.me/botfather
+bot_token=123456789:abcdefghijklmnopqrstuvwxyz
+
+# FSM mode. Options: memory, redis
+fsm_mode=redis
+
+# Connection settings to Redis
+# REDIS__HOST=localhost
+# REDIS__PORT=6379
+# REDIS__DB=0
+redis=redis://redis
+
+# id administrator
+admin=123456789
+# logs channel
+logs_channel_id=-123456789
+logs_error_channel_id=-123456798
+bot_manager_chat_id=-123456789
+bots_manager_group_id_main_chat = -123456789
+
+# https://t.me/BSv2Bot
+bs_id = 123456789

@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+    bot:
+        image: bs5
+        restart: unless-stopped
+        stop_signal: SIGINT
+        env_file: .env
+        depends_on:
+            - redis
+        volumes:
+            - ./:/app
+        networks:
+            - redis
+
+networks:
+    redis:
+        driver: bridge
+
