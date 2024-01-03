@@ -4,7 +4,7 @@ from enum import Enum
 from pydantic import BaseModel, RedisDsn, SecretStr, field_validator, FieldValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from users import users
+from users_data import users, kate_users
 
 class Redis(BaseModel):
     host: str
@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     logs_error_channel_id: int
     bot_manager_chat_id: int
     bots_manager_group_id_main_chat: int
+    bots_manager_kate: int
     bs_id: int
 
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8')
@@ -60,6 +61,19 @@ config = Settings()
 
 users_ids = {}
 users_topics = {}
+kate_users_topics = {}
 for user in users:
-    users_ids[users[user]['id']] = { 'name': user, 'topic': users[user]['topic'] }
+    users_ids[users[user]['id']] = {
+        'name': user,
+        'topic': users[user]['topic'],
+        'forum': config.bots_manager_group_id_main_chat,
+    }
     users_topics[users[user]['topic']] = { 'name': user, 'id': users[user]['id'] }
+
+for user in kate_users:
+    users_ids[users[user]['id']] = {
+        'name': user,
+        'topic': users[user]['topic'],
+        'forum': config.bots_manager_kate,
+    }
+    kate_users_topics[users[user]['topic']] = { 'name': user, 'id': users[user]['id'] }
