@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 import logging
 
 from aiogram.types import ReplyKeyboardRemove
@@ -28,6 +29,7 @@ async def main():
 
     try:
         await bot.send_message(chat_id=config.bots_manager_group_id_main_chat, text='Bot launcher', reply_markup=ReplyKeyboardRemove())
+        print("Bot launcher", datetime.now())
         # await bot.send_message(chat_id=config.admin, text='Bot launcher', reply_markup=ReplyKeyboardRemove()) # debug
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:

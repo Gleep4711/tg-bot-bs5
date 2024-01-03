@@ -17,6 +17,8 @@ F: Message
 
 @router.message((F.forward_from.id == config.bs_id) & (F.chat.type == 'private'))
 async def bastion_forward(message: Message, state: FSMContext):
+    if message.text:
+        print("bastion_forward", users_ids[message.from_user.id]['name'], message.text[:50])
     await bot.forward_message(
         # chat_id=config.bots_manager_group_id_main_chat,
         chat_id=users_ids[message.from_user.id]['forum'],
@@ -29,6 +31,9 @@ async def bastion_forward(message: Message, state: FSMContext):
 @router.message((F.from_user.id.in_(ids)) & (F.chat.type == 'private'))
 async def private_user_bots(message: Message, state: FSMContext):
     message_thread_id = users_ids[message.from_user.id]['topic']
+
+    if message.text:
+        print("private_user_bots", users_ids[message.from_user.id]['name'], message.text[:50])
 
     if message.text.startswith('{'):
         data = json.loads(message.text)
@@ -61,17 +66,24 @@ async def private_user_bots(message: Message, state: FSMContext):
         )
 
 
-@router.message((F.chat.id.in_({config.bots_manager_group_id_main_chat, config.bots_manager_kate})))
+@router.message(F.chat.id.in_({config.bots_manager_group_id_main_chat, config.bots_manager_kate}))
+# @router.message(F.chat.id == config.bots_manager_group_id_main_chat | F.chat.id == config.bots_manager_kate)
 async def bots_manager_group(message: Message, state: FSMContext):
     ''' We send messages to the user '''
-    if not (message.text and message.message_thread_id in users_topics and message.message_thread_id in kate_users_topics):
+    if not message.text:
         return
-    if message.message_thread_id in users_topics:
+
+    if message.chat.id == config.bots_manager_group_id_main_chat and message.message_thread_id in users_topics:
         chat_id = users_topics[message.message_thread_id]['id']
-    elif message.message_thread_id in kate_users_topics:
+        test_name = users_topics[message.message_thread_id]['id']
+    elif message.chat.id == config.bots_manager_kate and message.message_thread_id in kate_users_topics:
         chat_id = kate_users_topics[message.message_thread_id]['id']
+        test_name = kate_users_topics[message.message_thread_id]['id']
     else:
         return
+
+    if message.text:
+        print("bots_manager_group", test_name, message.text[:50])
 
     msg = message.text
     if '@' in msg:
