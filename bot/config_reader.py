@@ -71,9 +71,9 @@ for user in users:
     users_topics[users[user]['topic']] = { 'name': user, 'id': users[user]['id'] }
 
 for user in kate_users:
-    users_ids[users[user]['id']] = {
+    users_ids[kate_users[user]['id']] = {
         'name': user,
-        'topic': users[user]['topic'],
+        'topic': kate_users[user]['topic'],
         'forum': config.bots_manager_kate,
     }
-    kate_users_topics[users[user]['topic']] = { 'name': user, 'id': users[user]['id'] }
+    kate_users_topics[kate_users[user]['topic']] = { 'name': user, 'id': kate_users[user]['id'] }
